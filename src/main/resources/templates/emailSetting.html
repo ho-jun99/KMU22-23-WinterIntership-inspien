@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="/fragments/header.html :: fragment-header">
+  </head>
+<body>
+  <div th:replace="/fragments/navi.html :: fragment-navi"></div>
+  <div class="container">
+    <label for="currentCron" class="form-label">현재 설정된 크론(Cron), 초 분 시 일 월 요일</label>
+    <h3 th:text="${cron}" id="currentCron"></h3>
+    <br>
+    <label for="currentExpire" class="form-label">현재 설정된 만료기준일, ex) 40(일)</label>
+    <h3 th:text="${expire}" id="currentExpire"></h3>
+
+    <hr>
+    <form class="row g-2" th:action="@{|/api/schduler|}" method="post">
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">만료기준일 설정</label>
+        <input class="form-control" name="expireDue" id="inputEmail4" placeholder="만료기준일(ex.30) 일전 " required>
+      </div>
+<!--      <div class="col-md-6">-->
+<!--        <label for="inputPassword4" class="form-label">주기설정</label>-->
+<!--        <input  class="form-control" name="duration" id="inputPassword4" placeholder="주기설정 (ex 2일마다 발송)" required>-->
+<!--      </div>-->
+      <div class="col-md-6">
+        <label for="inputAddress" class="form-label">시간설정 ( 초 분 시 일 월 요일 ) </label>
+        <input type="text" class="form-control" name="cron" id="inputAddress" placeholder="초 분 시 일 월 요일 (0 0 10 * * *)" required>
+        <div class="invalid-feedback">시간설정 양식을 확인해주세요</div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">적용</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

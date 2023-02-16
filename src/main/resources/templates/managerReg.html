@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: fragment-header">
+</head>
+<body>
+<div th:replace="/fragments/navi.html :: fragment-navi"></div>
+<div class="container">
+  <form th:action="@{|/view/managers/reg/${customerId}|}" method="post">
+    <div class="row g-3">
+      <div class="col">
+        <input type="text" name="name" class="form-control" placeholder="MANAGER NAME" required>
+      </div>
+      <div class="col">
+        <input type="email" name="email" class="form-control" placeholder="MANAGER EMAIL" required>
+        <div class="invalid-feedback">이메일 양식을 확인해주세요</div>
+      </div>
+      <div class="col">
+        <input type="text" name="phone" class="form-control" placeholder="MANAGER PHONE" required>
+      </div>
+<!--      <div class="col">-->
+<!--        <textarea type="text" name="customerId" disabled class="form-control" th:text="${customerId}"/>-->
+<!--      </div>-->
+    </div>
+
+    <button class="btn btn-outline-success end-0"  type="submit">등록</button>
+    <button class="btn btn-outline-primary end-0" type="submit">취소</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: fragment-header">
+</head>
+<body>
+<div th:replace="/fragments/navi.html :: fragment-navi"></div>
+
+<div class="container" style="max-width: 1200px">
+  <form method="post" th:action="@{|/view/certis/update/${certificationDetail.getId()}|}" enctype="multipart/form-data"
+        th:object="${certificationCreateRequest}">
+    <div class="text-center">
+      <h2>인증서 수정</h2>
+    </div>
+    <div>
+
+
+
+      <label for="formFileLg" class="form-label">파일 수정</label>
+
+      <div>
+        <span>이전파일 : <a th:text="${certificationDetail.getOrginalFileName()}"
+                        th:href="@{|/api/certifications/download/${certificationDetail.getId()}|}"></a></span>
+      </div>
+
+      <input class="form-control form-control-lg"
+             th:field="*{multipartFile}"
+             name="multipartFile" id="formFileLg"
+             type="file">
+    </div>
+
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-label">인증서 별칭</label>
+      <input type="text" class="form-control"
+             th:value="${certificationDetail.getAlias()}"
+             name="alias"
+             id="formGroupExampleInput"
+             placeholder="ALIAS 입력">
+    </div>
+
+    <div class="form-floating mt-4">
+            <textarea name="memo"
+                      th:text="${certificationDetail.getMemo()}"
+                      class="form-control disabled®"
+                      placeholder="Leave a comment here"
+                      id="floatingTextarea2" style="height: 100px"></textarea>
+      <label for="floatingTextarea2">메모</label>
+    </div>
+    <hr>
+
+    <label for="publisher-customer-search" class="form-label mt-4">인증서 발급사 등록</label>
+    <div style="overflow-y: auto; height: 300px">
+      <table class="table table-responsive" id="publisher-customer-search">
+        <thead>
+        <tr>
+          <th>CUSTOEMR ID</th>
+          <th>NAME</th>
+          <th>CREATED</th>
+          <th>선택</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="item : ${customerDtos}">
+          <td><a th:href="@{|/view/customers/${item.getId()}|}"
+                 th:text="${item.getId()}">1</a></td>
+          <td><a th:text="${item.getName()}">테스트 상품1</a></td>
+          <td th:text="${item.getCreatedDate()}">10</td>
+          <td>
+            <input th:name="publisherCustomerId"
+                   th:value="${item.getId()}"
+                   th:checked="${item.getId()==certificationDetail.getPublisher().getId()}"
+                   type="radio"
+                   class="form-check-label">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+
+
+    <label for="related-customer-search" class="form-label mt-4">연관 고객사 등록</label>
+
+    <div style="overflow-y: auto; height: 300px">
+      <table class="table" id="related-customer-search">
+        <thead>
+        <tr>
+          <th>CUSTOEMR ID</th>
+          <th>NAME</th>
+          <th>CREATED</th>
+          <th>선택</th>
+
+        </tr>
+        </thead>
+        <tbody class="overflow-y-scroll">
+        <tr th:each="item : ${customerDtos}">
+          <td><a th:href="@{|/view/customers/${item.getId()}|}"
+                 th:text="${item.getId()}">1</a></td>
+          <td><a th:text="${item.getName()}">테스트 상품1</a></td>
+          <td th:text="${item.getCreatedDate()}">10</td>
+
+          <td>
+            <input class="form-check-input"
+                   type="checkbox"
+                   th:name="relatedCustomerId"
+                   th:value="${item.getId()}"
+                   th:checked="${#lists.contains(relatedCustomerIdList,item.getId()) ? 'true' : 'false'}"
+                   >
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn btn-outline-success end-0" id="formSubmitButton" type="submit">등록</button>
+    <button class="btn btn-outline-primary end-0" type="submit">취소</button>
+  </form>
+</div>
+</body>
+</html>

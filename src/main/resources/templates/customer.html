@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="/fragments/header.html :: fragment-header">
+  </head>
+<body>
+  <div th:replace="/fragments/navi.html :: fragment-navi"></div>
+  <div class="container" style="max-width: 1200px">
+    <div class="text-center">
+      <h2>고객 조회</h2>
+    </div>
+
+    <form class="d-flex my-1" th:action="@{|/view/customers|}" method="get">
+      <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-primary float-end"
+                th:onclick="|location.href='@{/view/customers-reg}'|"
+                onclick="location.href='addForm.html'" type="button">고객 등록
+        </button>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>CUSTOMER ID</th>
+          <th>NAME</th>
+          <th>CREATED</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${customsers.getCustomerDto()}">
+          <td><a th:href="@{|/view/customers/${item.getId()}|}"
+                 th:text="${item.getId()}">1</a></td>
+          <td><a th:text="${item.getName()}">테스트 상품1</a></td>
+          <td     th:text="${#temporals.format(item.getCreatedDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center"
+          th:with="
+            start=${(customsers.getCurPage() / 10) * 10},
+            last=(${customsers.getCurPage() / 10 * 10 + 9 < customsers.getTotalPage() ? (customsers.getCurPage() / 10) * 10 + 9 : customsers.getTotalPage()})
+            ">
+
+        <li class="page-item">
+          <a class="page-link"  th:href="@{|/view/customers?page=0|}" aria-label="Next">
+            <span aria-hidden="true">START</span>
+          </a>
+        </li>
+
+        <li th:class="${customsers.isFirst()} ? 'page-item disabled' : 'page-item' " >
+          <a class="page-link" th:href="@{|/view/customers?page=${customsers.getCurPage()-1}|}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <li th:each="page: ${#numbers.sequence(start, last)}"
+            th:class="${page == customsers.getCurPage()} ? 'page-item active' : 'page-item'">
+          <a class="page-link" th:text="${page + 1 }" th:href="@{|/view/customers?page=${page}|}"></a>
+        </li>
+
+        <li th:class="${customsers.isLast()} ? 'page-item disabled' : 'page-item' ">
+          <a class="page-link"  th:href="@{|/view/customers?page=${customsers.getCurPage()+1}|}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link"  th:href="@{|/view/customers?page=${customsers.getTotalPage()}|}" aria-label="Next">
+            <span aria-hidden="true">END</span>
+          </a>
+        </li>
+
+
+      </ul>
+    </nav>
+
+      </ul>
+    </nav>
+  </div>
+</body>
+</html>

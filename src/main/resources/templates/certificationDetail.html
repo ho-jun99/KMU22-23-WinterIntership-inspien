@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: fragment-header">
+</head>
+<body>
+<div th:replace="/fragments/navi.html :: fragment-navi"></div>
+<div class="container" style="max-width: 1200px">
+    <div class="text-center">
+        <h2>인증서 상세</h2>
+    </div>
+    <div>
+        <span class="mt-4" th:text="${certification.getOrginalFileName()}">파일명</span>
+        <a class="btn btn-primary"
+           role="button"
+           th:href="@{|/api/certifications/download/${certification.id}|}">다운로드</a>
+    </div>
+
+    <label for="detail-info" class="form-label mt-4">파일 상세 정보</label>
+    <table class="table table-sm" id="detail-info">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">KEY</th>
+            <th scope="col">VALUE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>REGISTER ID</td>
+            <td th:text="${certification.getId()}">인증서 ID</td>
+        </tr>
+        <tr>
+            <td>CREATE AT</td>
+            <td th:text="${#temporals.format(certification.getCreatedDate(), 'yyyy-MM-dd HH:mm:ss')}">2022-12-32
+                11:12:23
+            </td>
+        </tr>
+        <tr>
+            <td>CERT_ALIAS</td>
+            <td th:text="${certification.getAlias()}">인증서이름</td>
+        </tr>
+        <tr>
+            <td>SERIAL</td>
+            <td th:text="${certification.getSerial()}">SA1232F10I129R</td>
+        </tr>
+        <tr>
+            <td>EXPIRE_DATE</td>
+            <td th:text="${#temporals.format(certification.getExpireDateTime(), 'yyyy-MM-dd HH:mm:ss')}">2022-12-12
+                12:23:23
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="form-floating mt-4">
+        <textarea th:text="${certification.getMemo()}" disabled class="form-control disabled"
+                  placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+    </div>
+    <hr>
+
+    <label for="publisher" class="form-label mt-4">인증서 관리사</label>
+    <table class="table" id="publisher">
+        <thead>
+        <tr>
+            <th>CUSTOEMR ID</th>
+            <th>NAME</th>
+            <th>CREATED</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a th:href="@{|/view/customers/${certification.getPublisher().getId()}|}"
+                   th:text="${certification.getPublisher().getId()}">1</a></td>
+            <td th:text="${certification.getPublisher().getName()}">KAKAO</td>
+            <td th:text="${#temporals.format(certification.getPublisher().getCreatedDate(), 'yyyy-MM-dd HH:mm:ss')}">
+                2022-05-16 23:22:21
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <label for="related-customer-search" class="form-label mt-4">연관 고객사</label>
+    <div style="overflow-y: auto; height: 300px">
+        <table class="table" id="related-customer-search">
+            <thead>
+            <tr>
+                <th>CUSTOEMR ID</th>
+                <th>NAME</th>
+                <th>CREATED</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${certification.getRelatedCustomers()}">
+                <td><a href="item.html"
+                       th:href="@{|/view/customers/${customer.getId()}|}"
+                       th:text="${customer.getId()}">1</a></td>
+                <td th:text="${customer.getName()}"></td>
+                <td th:text="${#temporals.format(customer.getCreatedDate(), 'yyyy-MM-dd HH:mm:ss')}">10000</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <a class="btn btn-danger end-0"
+       th:href="@{|/view/certis/delete/${certification.getId()}|}"
+       role="button">삭제</a>
+
+    <a class="btn btn-primary end-0"
+       th:href="@{|/view/certis|}"
+       href="#" role="button">목록</a>
+    <a class="btn btn-primary end-0"
+       th:href="@{|/view/certis/update/${certification.getId()}|}"
+       role="button">수정</a>
+</div>
+</body>
+</html>

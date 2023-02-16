@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="/fragments/header.html :: fragment-header">
+  </head>
+<body>
+  <div th:replace="/fragments/navi.html :: fragment-navi"></div>
+  <div class="container">
+
+    <form th:action="@{|/view/customers|}" method="post">
+      <div class="row g-3">
+        <div class="col">
+          <input type="text" name="id" class="form-control" placeholder="Customer ID" >
+        </div>
+
+        <div class="col">
+          <input type="text" name="name" class="form-control" placeholder="Customer Name">
+        </div>
+      </div>
+
+      <div class="form-floating mt-4">
+        <textarea name="memo" class="form-control disabled®" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <label for="floatingTextarea2">메모</label>
+      </div>
+
+      <button class="btn btn-outline-success end-0"  type="submit">등록</button>
+      <button class="btn btn-outline-primary end-0" type="submit">취소</button>
+    </form>
+  </div>
+
+</body>
+</html>
