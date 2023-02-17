@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: fragment-header">
+<head th:replace="fragments/header.html :: fragment-header">
 </head>
 <body>
-<div th:replace="/fragments/navi.html :: fragment-navi"></div>
+<div th:replace="fragments/navi.html :: fragment-navi"></div>
 <div class="container">
   <form th:action="@{|/view/managers/reg/${customerId}|}" method="post">
     <div class="row g-3">

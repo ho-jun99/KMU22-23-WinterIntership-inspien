@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="/fragments/header.html :: fragment-header">
+  <head th:replace="fragments/header.html :: fragment-header">
   </head>
 <body>
-  <div th:replace="/fragments/navi.html :: fragment-navi"></div>
+  <div th:replace="fragments/navi.html :: fragment-navi"></div>
   <div class="container">
     <label for="currentCron" class="form-label">현재 설정된 크론(Cron), 초 분 시 일 월 요일</label>
     <h3 th:text="${cron}" id="currentCron"></h3>
